@@ -18,14 +18,14 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
 
-
-    "typeorm": "typeorm-ts-node-esm -d ./config/data-source.ts",
-    "db:drop": "npm run typeOrm schema:drop",
-    "db:create": "npm run typeorm migration:generate -- -n",
-    "db:migrate": "npm run typeOrm migration:run"
+    "typeorm": "npx run build && npx typeorm -d dist/typeOrm.config.js",
+    "migration:generate": "npm run typeorm -- migration:generate",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",

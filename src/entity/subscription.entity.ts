@@ -10,3 +10,4 @@ export class SubscriptionEntity extends BaseEntity {
     @Column({ type: 'varchar', length: 300 })
     subscription_profile_email: string;
 }
+
