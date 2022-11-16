@@ -1,13 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
+import {Controller, Get, Param} from '@nestjs/common';
 import {ProfileService} from "./profile.service";
 import {ProfileEntity} from "@app/entity/profile.entity";
+import emailValidate from "../../../middlewares/emailValidate";
 
-@Controller('profile')
+@Controller()
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {
     }
     @Get()
-    async findAll(): Promise<ProfileEntity[]> {
-        return await this.profileService.findAll()
+    async findOne(@Param('email') email): Promise<void> {
+        const req =  await this.profileService.findOne(email)
+
+        await emailValidate(email, req)
     }
 }
