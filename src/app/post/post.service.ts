@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {PostEntity} from "@app/entity/post.entity";
 import {Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
+import {CreatePostDto} from "@app/dto/CreatePostDto.dto";
 
 @Injectable()
 export class PostService {
@@ -16,5 +17,13 @@ export class PostService {
             take: 20,
             where: {author_email: email},
         })
+    }
+
+    async createOne(email, createPostDto: CreatePostDto): Promise<any> {
+        const newPost = {
+            author_email: email,
+            createPostDto
+        };
+        return await this.postRepository.save(newPost);
     }
 }

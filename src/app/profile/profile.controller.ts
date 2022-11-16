@@ -3,7 +3,7 @@ import {ProfileService} from "./profile.service";
 import emailValidate from "../../../middlewares/emailValidate";
 import {UpdateProfileDto} from "@app/dto/UpdateProfileDto.dto";
 
-@Controller()
+@Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {
     }
