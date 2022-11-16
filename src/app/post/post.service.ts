@@ -1,6 +1,6 @@
-import {Injectable, Param} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {PostEntity} from "@app/entity/post.entity";
-import {FindManyOptions, Repository} from "typeorm";
+import {Repository} from "typeorm";
 import {InjectRepository} from "@nestjs/typeorm";
 
 @Injectable()
