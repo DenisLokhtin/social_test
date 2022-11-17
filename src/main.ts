@@ -4,7 +4,7 @@ import {AppModule} from './app.module';
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.setGlobalPrefix('blog/:email');
-    await app.listen(3001);
+    await app.listen(3002);
 }
 
 bootstrap();

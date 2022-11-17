@@ -3,7 +3,7 @@ import {PostService} from "./post.service";
 import emailValidate from "../../../middlewares/emailValidate";
 import {CreatePostDto} from "@app/dto/CreatePostDto.dto";
 
-@Controller('post')
+@Controller('posts')
 export class PostController {
     constructor(private readonly postService: PostService) {
     }

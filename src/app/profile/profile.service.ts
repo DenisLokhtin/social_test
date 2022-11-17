@@ -16,6 +16,7 @@ export class ProfileService {
         const profile = await this.profileRepository.findOne({where: {email: email}});
         if (profile) return profile
         await this.profileRepository.save({email: email});
+        return await this.profileRepository.findOne({where: {email: email}});
     }
 
     async changeOne(email, updateProfileDto: UpdateProfileDto): Promise<ProfileEntity> {
