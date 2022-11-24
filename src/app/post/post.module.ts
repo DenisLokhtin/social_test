@@ -4,12 +4,9 @@ import { PostService } from './post.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostEntity } from '@app/entity/post.entity';
 import { ProfileEntity } from '@app/entity/profile.entity';
-import { SubscriptionEntity } from '@app/entity/subscription.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([PostEntity, ProfileEntity, SubscriptionEntity]),
-  ],
+  imports: [TypeOrmModule.forFeature([PostEntity, ProfileEntity])],
   controllers: [PostController],
   providers: [PostService],
 })

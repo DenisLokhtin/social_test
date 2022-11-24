@@ -1,22 +1,28 @@
-import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
-import {BaseEntity} from './base.entity';
-import {ProfileEntity} from "@app/entity/profile.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ProfileEntity } from '@app/entity/profile.entity';
 
-@Entity({name: 'subscription'})
-export class SubscriptionEntity extends BaseEntity {
+@Entity({ name: 'subscription' })
+export class SubscriptionEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @ManyToOne(() => ProfileEntity, (profile) => profile.id)
-    @JoinColumn()
-    profile: ProfileEntity;
+  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
+  @JoinColumn({ name: 'profile' })
+  profile: ProfileEntity;
 
-    @ManyToOne(() => ProfileEntity, (profile) => profile.id)
-    @JoinColumn()
-    subscription: ProfileEntity;
+  @ManyToOne(() => ProfileEntity, (profile) => profile.id)
+  @JoinColumn({ name: 'subscription' })
+  subscription: ProfileEntity;
 
-    @Column({type: 'varchar', length: 300,})
-    email_sub: string;
+  @Column()
+  profileId: number;
 
-    @Column({type: 'varchar', length: 300,})
-    email_profile: string;
+  @Column()
+  subscriptionId: number;
 }
-

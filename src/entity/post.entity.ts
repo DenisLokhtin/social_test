@@ -1,17 +1,25 @@
-import {Column, Entity, JoinColumn, ManyToOne} from 'typeorm';
-import {BaseEntity} from './base.entity';
-import {ProfileEntity} from "@app/entity/profile.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ProfileEntity } from '@app/entity/profile.entity';
 
-@Entity({name: 'post'})
-export class PostEntity extends BaseEntity {
+@Entity({ name: 'post' })
+export class PostEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: 'varchar', length: 255})
-    description: string;
+  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  createDateTime: Date;
 
-    @Column({type: 'varchar', length: 255})
-    profile_email: string;
+  @Column({ type: 'varchar', length: 255 })
+  description: string;
 
-    @ManyToOne(() => ProfileEntity, (profile) => profile.id)
-    @JoinColumn()
-    profile: ProfileEntity;
+  @ManyToOne(() => ProfileEntity, (profile) => profile.posts)
+  @JoinColumn()
+  profile: ProfileEntity;
 }

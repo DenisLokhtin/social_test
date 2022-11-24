@@ -1,23 +1,21 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
-import {SubscriptionService} from "./subscription.service";
-import {SubscriptionEntity} from "@app/entity/subscription.entity";
-import emailValidate from "../../../middlewares/emailValidate";
-import {CreateSubscriptionDto} from "@app/dto/CreateSubscriptionDto.dto";
+import { Body, Controller, Param, Post } from '@nestjs/common';
+import { SubscriptionService } from '@app/app/subscription/subscription.service';
+import emailValidate from '../../../middlewares/emailValidate';
 
 @Controller('subscribe')
 export class SubscriptionController {
-    constructor(private readonly subscriptionService: SubscriptionService) {
-    }
+  constructor(private readonly subscriptionService: SubscriptionService) {}
 
-    @Get()
-    async findAll(): Promise<SubscriptionEntity[]> {
-        return await this.subscriptionService.findAll()
-    }
+  @Post()
+  async createOne(
+    @Param('email') email_profile,
+    @Body() email_sub: 'email_sub',
+  ): Promise<void | string> {
+    const req = await this.subscriptionService.createOne(
+      email_profile,
+      email_sub,
+    );
 
-    @Post()
-    async createOne(@Param('email') email_profile, @Body() createSubscriptionDto: CreateSubscriptionDto): Promise<void> {
-        const req = await this.subscriptionService.createOne(email_profile, createSubscriptionDto);
-
-        return await emailValidate(email_profile, req);
-    }
+    return await emailValidate(email_profile, req);
+  }
 }
