@@ -13,13 +13,19 @@ export class PostEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDateTime: Date;
 
   @Column({ type: 'varchar', length: 255 })
   description: string;
 
-  @ManyToOne(() => ProfileEntity, (profile) => profile.posts)
+  @Column()
+  profileId: number;
+
+  @ManyToOne(() => ProfileEntity, (profile) => profile.posts, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   profile: ProfileEntity;
 }

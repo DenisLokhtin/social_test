@@ -13,16 +13,22 @@ export class SubscriptionService {
     private subscriptionRepository: Repository<SubscriptionEntity>,
   ) {}
 
+  async findAll(email_profile): Promise<SubscriptionEntity[] | string> {
+    const profile = await this.profileRepository.findOne({
+      where: { email: email_profile },
+    });
+
+    if (!profile) return 'такого пользователя не существует';
+
+    return await this.subscriptionRepository.find({
+      where: { profileId: profile.id },
+    });
+  }
+
   async createOne(
     email_profile,
     email_sub,
-  ): Promise<
-    | SubscriptionEntity
-    | string
-    | ProfileEntity[]
-    | SubscriptionEntity[]
-    | ProfileEntity
-  > {
+  ): Promise<SubscriptionEntity | string> {
     if (email_profile === email_sub.email_sub)
       return 'Вы не можете подписаться на себя';
 
@@ -61,5 +67,17 @@ export class SubscriptionService {
     await this.profileRepository.save(ProfileWithRelation);
 
     return subscription;
+  }
+
+  async deleteAll(email_profile): Promise<string> {
+    const profile = await this.profileRepository.findOne({
+      where: { email: email_profile },
+    });
+
+    await this.subscriptionRepository.delete({
+      profileId: profile.id,
+    });
+
+    return 'successfully deleted';
   }
 }

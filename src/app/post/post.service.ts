@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PostEntity } from '@app/entity/post.entity';
-import { Repository } from 'typeorm';
+import { In, MoreThanOrEqual, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from '@app/dto/CreatePostDto.dto';
 import { ProfileEntity } from '@app/entity/profile.entity';
@@ -14,16 +14,43 @@ export class PostService {
     private readonly profileRepository: Repository<ProfileEntity>,
   ) {}
 
-  async findAll(email: string): Promise<PostEntity[] | string> {
-    const profile = await this.profileRepository.findOne({
-      where: { email: email },
-    });
-    if (!profile) return 'Такого пользователя не существует';
+  async findAll(email_profile, datetime): Promise<number[] | string> {
+    const result = [];
 
-    return await this.postRepository.find({
-      relations: ['profile'],
-      take: 20,
+    const profile = await this.profileRepository.find({
+      where: { email: email_profile },
+      relations: {
+        subscriptions: true,
+      },
     });
+
+    if (!profile) return 'такого пользователя не существует';
+
+    const ids = profile[0].subscriptions.map((val) => val.subscriptionId);
+
+    if (!datetime) {
+      console.log('без');
+      const posts = await this.postRepository.find({
+        where: {
+          profileId: In([...ids, profile[0].id]),
+        },
+        take: 20,
+      });
+
+      result.push(posts);
+    } else {
+      console.log('с', datetime);
+      const posts = await this.postRepository.find({
+        where: {
+          profileId: In([...ids, profile[0].id]),
+          createDateTime: MoreThanOrEqual(datetime),
+        },
+      });
+
+      result.push(posts);
+    }
+
+    return result.flat().slice(-20).reverse();
   }
 
   async createOne(email, createPostDto: CreatePostDto): Promise<any> {
@@ -34,6 +61,7 @@ export class PostService {
     return await this.postRepository.save({
       description: createPostDto.description,
       profile: profile,
+      profileId: profile.id,
     });
   }
 }

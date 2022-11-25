@@ -14,18 +14,6 @@ export class ProfileService {
   async findOne(email): Promise<ProfileEntity> {
     const profile = await this.profileRepository.findOne({
       where: { email: email },
-      select: {
-        subscriptions: { id: true },
-        id: true,
-        createDateTime: true,
-        first_name: true,
-        last_name: true,
-        email: true,
-      },
-      relations: {
-        posts: true,
-        subscriptions: { subscription: true },
-      },
     });
     if (profile) return profile;
     await this.profileRepository.save({ email: email });

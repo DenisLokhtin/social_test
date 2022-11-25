@@ -1,6 +1,5 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   JoinTable,
@@ -16,9 +15,6 @@ export class ProfileEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createDateTime: Date;
-
   @Column({ type: 'varchar', length: 300, default: 'john' })
   first_name: string;
 
@@ -28,11 +24,13 @@ export class ProfileEntity {
   @Column({ type: 'varchar', length: 300, unique: true })
   email: string;
 
-  @OneToMany(() => PostEntity, (post) => post.profile, { nullable: true })
+  @OneToMany(() => PostEntity, (post) => post.profile, {
+    nullable: true,
+  })
   @JoinColumn()
   posts: PostEntity[];
 
-  @ManyToMany(() => SubscriptionEntity)
+  @ManyToMany(() => SubscriptionEntity, { cascade: true, onDelete: 'CASCADE' })
   @JoinTable({ name: 'sub_auto' })
   subscriptions: SubscriptionEntity[];
 }
