@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SubscriptionService } from '@app/app/subscription/subscription.service';
 import emailValidate from '../../../middlewares/emailValidate';
 
@@ -13,7 +13,7 @@ export class SubscriptionController {
     return await emailValidate(email_profile, req);
   }
 
-  @Post('delete')
+  @Delete()
   async deleteAll(@Param('email') email_profile): Promise<void | string> {
     const req = await this.subscriptionService.deleteAll(email_profile);
 
