@@ -27,9 +27,10 @@ export class PostService {
     if (!profile) return 'такого пользователя не существует';
 
     const ids = profile[0].subscriptions.map((val) => val.subscriptionId);
+    const dateRegEx =
+      /\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z$)/;
 
     if (!datetime) {
-      console.log('без');
       const posts = await this.postRepository.find({
         where: {
           profileId: In([...ids, profile[0].id]),
@@ -39,7 +40,7 @@ export class PostService {
 
       result.push(posts);
     } else {
-      console.log('с', datetime);
+      if (!dateRegEx.test(datetime)) return 'дата некорректна';
       const posts = await this.postRepository.find({
         where: {
           profileId: In([...ids, profile[0].id]),
