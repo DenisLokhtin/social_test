@@ -51,8 +51,6 @@ export class SubscriptionService {
       where: { profileId: Profile.id, subscriptionId: subscriber.id },
     });
 
-    console.log(subscribe);
-
     if (subscribe) return 'Такая подпписка уже существует';
 
     const subscription = await this.subscriptionRepository.save({
@@ -63,7 +61,6 @@ export class SubscriptionService {
     });
 
     ProfileWithRelation.subscriptions.push(subscription);
-
     await this.profileRepository.save(ProfileWithRelation);
 
     return subscription;
