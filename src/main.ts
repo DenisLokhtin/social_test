@@ -8,5 +8,3 @@ async function bootstrap() {
 }
 
 bootstrap();
-
-// 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

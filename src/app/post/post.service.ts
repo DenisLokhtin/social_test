@@ -60,7 +60,7 @@ export class PostService {
     });
     if (!profile) return 'Такого пользователя не существует';
     return await this.postRepository.save({
-      description: createPostDto.description,
+      description: createPostDto.message,
       profile: profile,
       profileId: profile.id,
     });

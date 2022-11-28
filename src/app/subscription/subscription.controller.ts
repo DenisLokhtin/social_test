@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SubscriptionService } from '@app/app/subscription/subscription.service';
 import emailValidate from '../../../middlewares/emailValidate';
+import { CreateSubscriptionDto } from '@app/dto/CreateSubscriptionDto.dto';
 
 @Controller('subscribe')
 export class SubscriptionController {
@@ -23,11 +24,11 @@ export class SubscriptionController {
   @Post()
   async createOne(
     @Param('email') email_profile,
-    @Body() email_sub: 'email_sub',
+    @Body() createSubscriptionDto: CreateSubscriptionDto,
   ): Promise<void | string> {
     const req = await this.subscriptionService.createOne(
       email_profile,
-      email_sub,
+      createSubscriptionDto,
     );
 
     return await emailValidate(email_profile, req);

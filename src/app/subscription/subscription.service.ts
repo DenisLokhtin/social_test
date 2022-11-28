@@ -27,9 +27,9 @@ export class SubscriptionService {
 
   async createOne(
     email_profile,
-    email_sub,
+    createSubscriptionDto,
   ): Promise<SubscriptionEntity | string> {
-    if (email_profile === email_sub.email_sub)
+    if (email_profile === createSubscriptionDto.email)
       return 'Вы не можете подписаться на себя';
 
     const ProfileWithRelation = await this.profileRepository.findOne({
@@ -42,7 +42,7 @@ export class SubscriptionService {
     });
 
     const subscriber = await this.profileRepository.findOne({
-      where: { email: email_sub.email_sub },
+      where: { email: createSubscriptionDto.email },
     });
 
     if (!Profile || !subscriber) return 'такого пользователя не существует';
@@ -51,7 +51,7 @@ export class SubscriptionService {
       where: { profileId: Profile.id, subscriptionId: subscriber.id },
     });
 
-    if (subscribe) return 'Такая подпписка уже существует';
+    if (subscribe) return 'Такая подписка уже существует';
 
     const subscription = await this.subscriptionRepository.save({
       profile: Profile,
