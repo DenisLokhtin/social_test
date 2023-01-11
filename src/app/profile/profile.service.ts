@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ProfileEntity } from '@app/entity/profile.entity';
+import { ProfileEntity } from '@app/app/profile/entity/profile.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UpdateProfileDto } from '@app/dto/UpdateProfileDto.dto';
+import { UpdateProfileDto } from '@app/app/profile/dto/UpdateProfileDto.dto';
 
 @Injectable()
 export class ProfileService {
@@ -16,8 +16,7 @@ export class ProfileService {
       where: { email: email },
     });
     if (profile) return profile;
-    await this.profileRepository.save({ email: email });
-    return await this.profileRepository.findOne({ where: { email: email } });
+    return await this.profileRepository.save({ email: email });
   }
 
   async changeOne(

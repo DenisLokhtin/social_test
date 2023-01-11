@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfileModule } from './app/profile/profile.module';
 import { PostModule } from '@app/app/post/post.module';
 import { SubscriptionModule } from '@app/app/subscription/subscription.module';
-import { DataSourceOption } from '@app/typeOrm.config';
+import { DataSourceOption } from '../db/typeOrm.config';
 
 @Module({
   imports: [

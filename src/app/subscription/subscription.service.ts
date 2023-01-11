@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProfileEntity } from '@app/entity/profile.entity';
-import { SubscriptionEntity } from '@app/entity/subscription.entity';
+import { ProfileEntity } from '@app/app/profile/entity/profile.entity';
+import { SubscriptionEntity } from '@app/app/subscription/entity/subscription.entity';
 
 @Injectable()
 export class SubscriptionService {
@@ -71,10 +71,12 @@ export class SubscriptionService {
       where: { email: email_profile },
     });
 
+    if (!profile) return 'такого пользователя не существует';
+
     await this.subscriptionRepository.delete({
       profileId: profile.id,
     });
 
-    return 'successfully deleted';
+    return 'все подписки удалены';
   }
 }

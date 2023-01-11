@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PostEntity } from '@app/entity/post.entity';
+import { PostEntity } from '@app/app/post/entity/post.entity';
 import { In, MoreThanOrEqual, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreatePostDto } from '@app/dto/CreatePostDto.dto';
-import { ProfileEntity } from '@app/entity/profile.entity';
+import { CreatePostDto } from '@app/app/post/dto/CreatePostDto.dto';
+import { ProfileEntity } from '@app/app/profile/entity/profile.entity';
 
 @Injectable()
 export class PostService {
@@ -36,8 +36,8 @@ export class PostService {
           profileId: In([...ids, profile[0].id]),
         },
         take: 20,
+        order: { createDateTime: 'DESC' },
       });
-
       result.push(posts);
     } else {
       if (!dateRegEx.test(datetime)) return 'дата некорректна';
@@ -46,12 +46,11 @@ export class PostService {
           profileId: In([...ids, profile[0].id]),
           createDateTime: MoreThanOrEqual(datetime),
         },
+        order: { createDateTime: 'DESC' },
       });
-
       result.push(posts);
     }
-
-    return result.flat().slice(-20).reverse();
+    return result.flat();
   }
 
   async createOne(email, createPostDto: CreatePostDto): Promise<any> {

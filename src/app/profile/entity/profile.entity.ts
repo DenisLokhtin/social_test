@@ -7,8 +7,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { PostEntity } from '@app/entity/post.entity';
-import { SubscriptionEntity } from '@app/entity/subscription.entity';
+import { PostEntity } from '@app/app/post/entity/post.entity';
+import { SubscriptionEntity } from '@app/app/subscription/entity/subscription.entity';
 
 @Entity({ name: 'profile' })
 export class ProfileEntity {
