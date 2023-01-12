@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProfileEntity } from '@app/app/profile/entity/profile.entity';
+import { ProfileEntity } from '@app/profile/entity/profile.entity';
 
 @Entity({ name: 'subscription' })
 export class SubscriptionEntity {

@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PostService } from './post.service';
-import emailValidate from '../../../middlewares/emailValidate';
-import { CreatePostDto } from '@app/app/post/dto/CreatePostDto.dto';
+import emailValidate from '../../middlewares/emailValidate';
+import { CreatePostDto } from '@app/post/dto/CreatePostDto.dto';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
-import { PostEntity } from '@app/app/post/entity/post.entity';
+import { PostEntity } from '@app/post/entity/post.entity';
 
 @ApiTags('posts')
 @Controller('posts')

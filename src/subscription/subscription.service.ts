@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProfileEntity } from '@app/app/profile/entity/profile.entity';
-import { SubscriptionEntity } from '@app/app/subscription/entity/subscription.entity';
+import { ProfileEntity } from '@app/profile/entity/profile.entity';
+import { SubscriptionEntity } from '@app/subscription/entity/subscription.entity';
 
 @Injectable()
 export class SubscriptionService {
